@@ -1,3 +1,4 @@
+import 'package:brew_crew/screens/authenticate/signin.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -10,6 +11,6 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
-    return Text("Authentication");
+    return const SignIn();
   }
 }

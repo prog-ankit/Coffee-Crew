@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:627998248999:android:d1fd6636233e14307abe02",
+        "mobilesdk_app_id": "1:627998248999:android:b3b414425790b88d7abe02",
         "android_client_info": {
-          "package_name": "com.ankit.brew_crew"
+          "package_name": "com.example.brew_crew"
         }
       },
       "oauth_client": [
