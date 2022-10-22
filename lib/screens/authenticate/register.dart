@@ -1,17 +1,14 @@
-import 'package:brew_crew/model/user.dart';
-import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final toggleView;
-  const SignIn({super.key, required this.toggleView});
+  const Register({super.key, required this.toggleView});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   String? email;
   String? password;
   @override
@@ -19,14 +16,14 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow.shade800,
-        title: const Text("Login to Coffee Brow"),
+        title: const Text("Register to Coffee Brow"),
         centerTitle: true,
         actions: [
           IconButton(
               onPressed: () {
                 widget.toggleView();
               },
-              icon: Icon(Icons.person_add_alt))
+              icon: Icon(Icons.login))
         ],
       ),
       body: Container(
@@ -57,7 +54,17 @@ class _SignInState extends State<SignIn> {
               SizedBox(
                 height: 20.0,
               ),
-              ElevatedButton(onPressed: () {}, child: Text("Login!"))
+              TextFormField(
+                obscureText: true,
+                decoration: const InputDecoration(
+                  hintText: 'Confirm Password',
+                ),
+                onChanged: (value) => setState(() {}),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              ElevatedButton(onPressed: () {}, child: Text("Register!"))
             ],
           ))),
     );
