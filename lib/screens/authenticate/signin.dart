@@ -1,7 +1,7 @@
+import 'package:brew_crew/model/user.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -14,6 +14,7 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
+    final currUser = Provider.of<custUser>(context);
     return Scaffold(
       backgroundColor: Colors.yellow.shade300,
       appBar: AppBar(
@@ -25,15 +26,21 @@ class _SignInState extends State<SignIn> {
         padding: const EdgeInsets.all(20.0),
         child: ElevatedButton(
           onPressed: () async {
-            dynamic result = await _auth.signInano();
+            // if (currUser == null) {
+            //   print("No User");
+            // } else {
+            //   print("User Exists!!");
+            // }
+            custUser result = await _auth.signInano();
             if (result == null) {
               print("Error Sign In");
             } else {
               print("Sign In Sucess!!");
               print(result.uid);
+              Navigator.pushReplacementNamed(context, '/home');
             }
           },
-          child: Text("Login Anonymous"),
+          child: const Text("Login Anonymous"),
         ),
       ),
     );
