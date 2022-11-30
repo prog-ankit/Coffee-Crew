@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   //sign in anon
-  // await Firebase.initializeApp();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   custUser _userFromFirebase(User? user) {
     return user != null ? custUser(uid: user.uid) : custUser(uid: null);
   }
@@ -23,6 +23,7 @@ class AuthService {
 
       return _userFromFirebase(user);
 
+      // This part has been done in _userFromFirebase()
       // if (user != null) {
       //   _myUser = custUser(uid: user.uid);
       // } else {
