@@ -57,7 +57,12 @@ class _SignInState extends State<SignIn> {
               SizedBox(
                 height: 20.0,
               ),
-              ElevatedButton(onPressed: () {}, child: Text("Login!"))
+              ElevatedButton(
+                  onPressed: () async {
+                    print(email);
+                    print(password);
+                  },
+                  child: Text("Login!"))
             ],
           ))),
     );
