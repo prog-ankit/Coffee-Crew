@@ -12,8 +12,11 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final _formkey = GlobalKey<FormState>();
+
   String? email;
   String? password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,39 +35,45 @@ class _SignInState extends State<SignIn> {
       body: Container(
           padding: const EdgeInsets.all(20.0),
           child: Form(
+              key: _formkey,
               child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Username',
-                ),
-                onChanged: (value) => setState(() {
-                  email = value;
-                }),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              TextFormField(
-                obscureText: true,
-                decoration: const InputDecoration(
-                  hintText: 'Password',
-                ),
-                onChanged: (value) => setState(() {
-                  password = value;
-                }),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    print(email);
-                    print(password);
-                  },
-                  child: Text("Login!"))
-            ],
-          ))),
+                children: <Widget>[
+                  TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: 'Username',
+                      ),
+                      onChanged: (value) => setState(() {
+                            email = value;
+                          }),
+                      validator: ((value) {
+                        value!.length < 6
+                            ? "Password must be greater than 8"
+                            : null;
+                      })),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                    ),
+                    onChanged: (value) => setState(() {
+                      password = value;
+                    }),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        if (_formkey.currentState!.validate()) {
+                          print(_formkey.currentState!.validate());
+                        } else {}
+                      },
+                      child: Text("Login!"))
+                ],
+              ))),
     );
   }
 }
