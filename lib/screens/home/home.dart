@@ -23,8 +23,7 @@ class Home extends StatelessWidget {
           TextButton.icon(
             onPressed: () async {
               print("Printed Here!!");
-              await _auth.signOut().then((value) =>
-                  Navigator.of(context).pushReplacementNamed('/authenticate'));
+              await _auth.signOut();
             },
             icon: const Icon(
               Icons.logout,

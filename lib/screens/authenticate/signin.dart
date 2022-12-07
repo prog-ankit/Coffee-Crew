@@ -14,11 +14,14 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _formkey = GlobalKey<FormState>();
 
-  String? email;
-  String? password;
+  AuthService _authService = new AuthService();
+  late String email;
+  late String password;
 
   @override
   Widget build(BuildContext context) {
+    final currUser = Provider.of<custUser>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow.shade800,
@@ -46,9 +49,12 @@ class _SignInState extends State<SignIn> {
                             email = value;
                           }),
                       validator: ((value) {
-                        value!.length < 6
-                            ? "Password must be greater than 8"
-                            : null;
+                        if (value == null ||
+                            !value.contains('@') ||
+                            value.isEmpty) {
+                          return "Username Can't be Empty and must be an Email address";
+                        } else
+                          return null;
                       })),
                   const SizedBox(
                     height: 20.0,
@@ -61,15 +67,31 @@ class _SignInState extends State<SignIn> {
                     onChanged: (value) => setState(() {
                       password = value;
                     }),
+                    validator: (value) => value!.length < 6
+                        ? "Password must be greater than 6! Length = ${value.length}"
+                        : null,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   ElevatedButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
-                          print(_formkey.currentState!.validate());
-                        } else {}
+                          custUser? myUser;
+                          await _authService
+                              .loginWithEmailAndPassword(email, password)
+                              .then((custUser result) {
+                            if (result.uid == null) {
+                              print("User Not Present!!");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Invalid User!!')),
+                              );
+                            } else {
+                              print("User Logged in ");
+                            }
+                            print(result.uid);
+                          });
+                        }
                       },
                       child: Text("Login!"))
                 ],

@@ -13,7 +13,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currUser = Provider.of<custUser>(context);
-    print(currUser.uid);
+    print("From Wrapper: ${currUser.uid}");
     if (currUser.uid != null) {
       return Home();
     } else {
