@@ -1,3 +1,4 @@
+import 'package:brew_crew/design/inputdecorated.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,13 @@ class _RegisterState extends State<Register> {
   late String email;
   late String password;
 
-  AuthService _authService = new AuthService();
+  final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.yellow.shade300,
       appBar: AppBar(
         backgroundColor: Colors.yellow.shade800,
         title: const Text("Register to Coffee Brow"),
@@ -29,7 +31,7 @@ class _RegisterState extends State<Register> {
               onPressed: () {
                 widget.toggleView();
               },
-              icon: Icon(Icons.login))
+              icon: const Icon(Icons.login))
         ],
       ),
       body: Container(
@@ -39,53 +41,58 @@ class _RegisterState extends State<Register> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Username',
-                    ),
+                    decoration: inputdecorator.copyWith(
+                        label: const Text('Email Address')),
                     onChanged: (value) => setState(() {
                       email = value;
                     }),
                     validator: (value) {
-                      if (value == null || value.isEmpty)
-                        return "Username Can't be Empty";
-                      else
-                        return null;
+                      value == null || value.isEmpty
+                          ? "Username Can't be Empty"
+                          : null;
+                      // if (value == null || value.isEmpty)
+                      //   return "Username Can't be Empty";
+                      // else
+                      //   return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                    ),
+                    decoration:
+                        inputdecorator.copyWith(label: const Text('Password')),
                     onChanged: (value) => setState(() {
                       password = value;
                     }),
                     validator: (value) {
-                      if (value!.length < 8)
-                        return "Password must be greater than 8";
-                      else
-                        return null;
+                      value!.length < 8
+                          ? "Password must be greater than 8"
+                          : null;
+
+                      // if (value!.length < 8)
+                      //   return "Password must be greater than 8";
+                      // else
+                      // return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Confirm Password',
-                    ),
+                    decoration: inputdecorator.copyWith(
+                        label: const Text('Confirm Password')),
                     validator: (value) {
-                      if (value != password)
-                        return "Password Doesn't match!!";
-                      else
-                        return null;
+                      value != password ? "Password Doesn't match!!" : null;
+                      // if (value != password)
+                      //   return;
+                      // else
+                      //   return null;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   ElevatedButton(

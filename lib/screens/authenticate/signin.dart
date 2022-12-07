@@ -1,3 +1,4 @@
+import 'package:brew_crew/design/inputdecorated.dart';
 import 'package:brew_crew/model/user.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _SignInState extends State<SignIn> {
     final currUser = Provider.of<custUser>(context);
 
     return Scaffold(
+      backgroundColor: Colors.yellow.shade300,
       appBar: AppBar(
         backgroundColor: Colors.yellow.shade800,
         title: const Text("Login to Coffee Brow"),
@@ -42,9 +44,8 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: <Widget>[
                   TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Username',
-                      ),
+                      decoration: inputdecorator.copyWith(
+                          label: const Text('Email Address')),
                       onChanged: (value) => setState(() {
                             email = value;
                           }),
@@ -61,9 +62,8 @@ class _SignInState extends State<SignIn> {
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                    ),
+                    decoration:
+                        inputdecorator.copyWith(label: const Text('Password')),
                     onChanged: (value) => setState(() {
                       password = value;
                     }),
