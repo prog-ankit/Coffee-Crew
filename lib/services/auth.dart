@@ -37,7 +37,8 @@ class AuthService {
   }
 
   //register using email
-  Future registerWithEmailAndPassword(String email, String pwd) async {
+  Future<custUser> registerWithEmailAndPassword(
+      String email, String pwd) async {
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -53,10 +54,11 @@ class AuthService {
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
-      return null;
+      print(e);
+      return custUser(uid: null);
     } catch (e) {
       print(e);
-      return null;
+      return custUser(uid: null);
     }
   }
 
