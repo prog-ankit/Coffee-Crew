@@ -1,4 +1,5 @@
 import 'package:brew_crew/model/user.dart';
+import 'package:brew_crew/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -47,6 +48,9 @@ class AuthService {
       );
 
       final user = credential.user;
+      // DatabaseService dbService = DatabaseService(user.uid)
+      await DatabaseService(uid: user!.uid)
+          .updateUserData('1', 'brew user', 100);
       return _userFromFirebase(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -71,9 +75,11 @@ class AuthService {
       );
 
       final user = credential.user;
+      // print(user!.uid);
+
       return _userFromFirebase(user);
     } catch (e) {
-      print("Error =>${e}");
+      print("Error =>$e");
       return custUser(uid: null);
     }
   }
