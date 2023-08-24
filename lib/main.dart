@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<custUser?>.value(
-      initialData: custUser(uid: "Null"),
+      initialData: custUser(uid: null),
       value: AuthService().users,
       child: MaterialApp(
         routes: {

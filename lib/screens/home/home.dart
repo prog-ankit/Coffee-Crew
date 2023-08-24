@@ -1,10 +1,10 @@
+import 'package:brew_crew/design/settings_form.dart';
 import 'package:brew_crew/services/auth.dart';
 import 'package:brew_crew/services/database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:brew_crew/model/user.dart';
 
+import '../../model/brew.dart';
 import 'brew_list.dart';
 
 class Home extends StatefulWidget {
@@ -15,21 +15,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List brewuserData = [];
-  Stream<QuerySnapshot>? data;
+  // List brewuserData = [];
+  // Stream<QuerySnapshot>? data;
   @override
   void initState() {
     //TODO: implement
     super.initState();
-    fetchDataList();
+    // fetchDataList();
   }
 
   void fetchDataList() async {
-    await DatabaseService().brewData().then((value) => setState(() {
-          data = value;
-        }));
+    // await DatabaseService().brewData().then((value) => setState(() {
+    //       data = value;
+    //     }));
 
     //For Technique-1
+    // await DatabaseService().brewData();
     // if (result == null) {
     //   print("Null Result");
     // } else {
@@ -43,23 +44,43 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final currUser = Provider.of<custUser>(context);
-    String myText = "";
-    if (currUser != null) {
-      myText = currUser.uid.toString();
-    }
-    final AuthService _auth = AuthService();
+    final AuthService auth = AuthService();
 
-    return Scaffold(
+    void _showPanelbottom() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return const bottomPanel();
+          });
+    }
+
+    return StreamProvider<List<brew>>.value(
+      initialData: const [],
+      value: DatabaseService().brewData,
+      child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.yellow.shade800,
-          title: Text("Coffee Brow!!"),
+          title: const Text("Coffee Brow!!"),
           elevation: 0.0,
           actions: <Widget>[
             TextButton.icon(
               onPressed: () async {
-                print("Printed Here!!");
-                await _auth.signOut();
+                print("Settings Here!!");
+                _showPanelbottom();
+              },
+              icon: const Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+              label: const Text(
+                "Settings",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () async {
+                print("User Signed Out!!");
+                await auth.signOut();
               },
               icon: const Icon(
                 Icons.logout,
@@ -69,28 +90,11 @@ class _HomeState extends State<Home> {
                 "Log Out",
                 style: TextStyle(color: Colors.white),
               ),
-            )
+            ),
           ],
         ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream: data,
-          builder: ((context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Text("NO DATA PRESENT!!!"),
-              );
-            } else {
-              return ListView(
-                children: snapshot.data!.docs.map((document) {
-                  return Center(
-                    child: Container(
-                      child: Text("Title: " + document['name']),
-                    ),
-                  );
-                }).toList(),
-              );
-            }
-          }),
-        ));
+        body: BrewList(),
+      ),
+    );
   }
 }
